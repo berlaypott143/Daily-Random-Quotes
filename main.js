@@ -1,13 +1,26 @@
 import { quotes } from "./Quotes.js";
 
-let button = document.getElementById("btn");
+let button = document.getElementById("generator-btn");
+let iconButton = document.getElementById("icon-btn");
 let container = document.getElementById("quote-container");
 
+let prevIndex = -1;
+
 button.addEventListener("click", function () {
-  container.innerHTML = "";
-  //getting a random index of imported quotes array
-  let randomIndex = Math.floor(Math.random() * quotes.length);
-  //console.log(quotes.length); ask how to access the content of the quotes length - chatgpt
+  // Remove the previous quote (if any), without clearing the entire container
+  let existingQuote = document.querySelector("#quote-container .quote");
+  if (existingQuote) {
+    existingQuote.remove();
+  }
+
+  //getting a random index of imported quotes array and loop until a different random index is found
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * quotes.length);
+  } while (randomIndex === prevIndex);
+
+  prevIndex = randomIndex;
+  console.log(randomIndex);
 
   //creating a div
   let randomQuote = document.createElement("div");
@@ -18,7 +31,22 @@ button.addEventListener("click", function () {
   //setting text content of div with the random selected quote
   randomQuote.textContent = quotes[randomIndex];
 
-  container.appendChild(randomQuote);
+  // Insert the new quote at the beginning of the container (before the hr and buttons)
+  container.insertBefore(randomQuote, container.firstChild);
 
+  console.log("Random Index:", randomIndex);
   console.log(container);
+});
+
+iconButton.addEventListener("click", function () {
+  let utterance = new SpeechSynthesisUtterance();
+
+  //retrieve text from container
+  let quoteText = container.textContent;
+
+  //set the text for utterance
+  utterance.text = quoteText;
+
+  //speak the quote
+  window.speechSynthesis.speak(utterance);
 });
