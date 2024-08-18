@@ -16,8 +16,10 @@ button.addEventListener("click", function () {
 
   //getting a random index of imported quotes array and loop until a different random index is found
   let randomIndex;
+  let randomColor;
   do {
     randomIndex = Math.floor(Math.random() * quotes.length);
+    randomColor = Math.floor(Math.random() * colors.length);
   } while (randomIndex === prevIndex);
 
   prevIndex = randomIndex;
@@ -31,6 +33,17 @@ button.addEventListener("click", function () {
 
   //setting text content of div with the random selected quote
   randomQuote.textContent = quotes[randomIndex];
+
+  // Select the <html> and <body> elements
+  const htmlElement = document.documentElement;
+  const bodyElement = document.body;
+
+  // Set the styles directly (no jQuery)
+  htmlElement.style.backgroundColor = colors[randomColor];
+  htmlElement.style.color = colors[randomColor];
+  bodyElement.style.backgroundColor = colors[randomColor];
+  button.style.backgroundColor = colors[randomColor];
+  iconButton.style.backgroundColor = colors[randomColor];
 
   // Insert the new quote at the beginning of the container (before the hr and buttons)
   container.insertBefore(randomQuote, container.firstChild);

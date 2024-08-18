@@ -5,13 +5,13 @@
 }
 
 body {
-  background: rgb(147, 147, 230);
-  font-family: Arial, sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
 h1 {
@@ -20,7 +20,7 @@ h1 {
 }
 
 #quote-container {
-  background: #fff;
+  background: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -31,53 +31,59 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .quote {
   font-size: 16px;
   text-align: center;
+  z-index: 1; /* Ensure the quote appears above the lines */
 }
 
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: auto;
   position: relative;
   width: 100%;
+  margin-top: 20px;
+}
+
+.button-container::before,
+.button-container::after {
+  content: "";
+  position: absolute;
+  background-color: #ccc;
+  z-index: 0; /* Ensure the lines are behind the text */
 }
 
 .button-container::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  width: 5px;
-  height: calc(100% + 190px);
-  background-color: #ccc;
+  width: 5px; /* Thickness of the vertical line */
+  height: calc(100% + 70px); /* Extend the line upwards */
+  left: 50px; /* Position the vertical line */
+  top: -70px; /* Adjust to position it correctly */
 }
 
 .button-container::after {
-  content: "";
-  display: block;
   width: 100%;
-  height: 5px;
-  background-color: #ccc;
-  position: absolute;
-  top: -10px;
+  height: 5px; /* Thickness of the horizontal line */
+  top: 0;
   left: 0;
 }
 
 .btn {
-  background-color: #4caf50;
   font-size: 14px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  color: white;
   margin: 0 10px;
+  color: white;
 }
 
-.btn:hover {
-  background-color: #45a049;
+.fa {
+  font-size: 1.8em;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
