@@ -1,4 +1,5 @@
 import { quotes } from "./Quotes.js";
+import { colors } from "./Colors.js";
 
 let button = document.getElementById("generator-btn");
 let iconButton = document.getElementById("icon-btn");
