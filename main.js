@@ -4,6 +4,8 @@ import { colors } from "./Colors.js";
 let button = document.getElementById("generator-btn");
 let iconButton = document.getElementById("icon-btn");
 let container = document.getElementById("quote-container");
+let lineVertical = document.getElementById("line-vertical");
+let lineHorizontal = document.getElementById("line-horizontal");
 
 let prevIndex = -1;
 
@@ -45,6 +47,11 @@ button.addEventListener("click", function () {
   button.style.backgroundColor = colors[randomColor];
   iconButton.style.backgroundColor = colors[randomColor];
 
+  //controlling vertical and horizontal lines
+  lineVertical.style.backgroundColor = colors[randomColor];
+  lineHorizontal.style.backgroundColor = colors[randomColor];
+  lineVertical.style.width = "10px";
+  lineHorizontal.style.height = "10px";
   // Insert the new quote at the beginning of the container (before the hr and buttons)
   container.insertBefore(randomQuote, container.firstChild);
 
@@ -53,10 +60,11 @@ button.addEventListener("click", function () {
 });
 
 iconButton.addEventListener("click", function () {
+  let quotes = document.querySelector(".quote");
   let utterance = new SpeechSynthesisUtterance();
 
   //retrieve text from container
-  let quoteText = container.textContent;
+  let quoteText = quotes.textContent;
 
   //set the text for utterance
   utterance.text = quoteText;
