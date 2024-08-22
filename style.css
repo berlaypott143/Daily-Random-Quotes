@@ -22,31 +22,55 @@ h1 {
 
 #quote-container {
   background: #fff;
-  padding: 20px 20px 20px 70px;
+  padding: 30px 20px 30px 70px;
   border-radius: 8px;
   position: relative;
-  width: 400px;
-  height: 300px; /* Adjust this if needed */
+  width: 500px;
+  height: 350px; /* Adjust this if needed */
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Align the content at the top */
   align-items: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensure text doesn't overflow the container */
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100%); /* Start from off-screen on the right */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* Slide into place */
+  }
 }
 
 .quote {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: -50px;
+  left: 50%;
+  transform: translate(-50%, 0); /* Adjust to truly center the quote */
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 50px;
-  padding-right: 20px;
+  padding-left: 30px; /* Add padding to avoid touching the vertical line */
+  padding-right: 30px; /* Same here for symmetry */
+  padding-top: 20px; /* Add a bit of padding at the top */
   text-align: center;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease, top 0.5s ease, left 0.5s ease; /* Add transition for opacity and position */
+  font-size: 2rem; /* Adjust font size as needed */
+  letter-spacing: 1px; /* Add spacing between letters */
+  line-height: 1; /* Adjust line height for better readability */
+  max-width: 80%; /* Ensure the quote doesn't stretch too wide */
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow for effect */
+}
+
+.quote.show {
+  animation: slideIn 0.5s forwards; /* Apply the slide-in effect */
 }
 
 .button-container {
