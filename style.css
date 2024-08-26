@@ -46,31 +46,53 @@ h1 {
   }
 }
 
+/* Updated CSS for smoother transitions */
 .quote {
   position: absolute;
-  top: -50px;
-  left: 50%;
-  transform: translate(-50%, 0); /* Adjust to truly center the quote */
+  top: 50px;
+  left: 0;
+  right: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 30px; /* Add padding to avoid touching the vertical line */
-  padding-right: 30px; /* Same here for symmetry */
-  padding-top: 20px; /* Add a bit of padding at the top */
   text-align: center;
   z-index: 1;
-  opacity: 0;
-  transition: opacity 0.5s ease, top 0.5s ease, left 0.5s ease; /* Add transition for opacity and position */
-  font-size: 2rem; /* Adjust font size as needed */
-  letter-spacing: 1px; /* Add spacing between letters */
-  line-height: 1; /* Adjust line height for better readability */
-  max-width: 80%; /* Ensure the quote doesn't stretch too wide */
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow for effect */
+  opacity: 1; /* Initially visible */
+  transform: translateY(0); /* Start at the final position */
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
-.quote.show {
-  animation: slideIn 0.5s forwards; /* Apply the slide-in effect */
+.quote.fade-in {
+  opacity: 1;
+  transform: translateY(0); /* Move quote to its final position */
+}
+
+.quote.fade-out {
+  opacity: 0;
+  transform: translateY(
+    20px
+  ); /* Move quote down slightly before it disappears */
+}
+
+.author {
+  margin-top: 10px;
+  font-style: italic;
+  opacity: 1; /* Initially visible */
+  transform: translateY(0); /* Start at the final position */
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+}
+
+.author.fade-in {
+  opacity: 1;
+  transform: translateY(0); /* Move author to its final position */
+}
+
+.author.fade-out {
+  opacity: 0;
+  transform: translateY(
+    10px
+  ); /* Move author down slightly before it disappears */
 }
 
 .button-container {
