@@ -88,3 +88,5 @@ iconButton.addEventListener("click", function () {
   // Speak the quote
   window.speechSynthesis.speak(utterance);
 });
+
+// trying to revert back to 7th commit from 8th commit
