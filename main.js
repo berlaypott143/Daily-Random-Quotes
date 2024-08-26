@@ -10,20 +10,13 @@ let lineHorizontal = document.getElementById("line-horizontal");
 let prevIndex = -1;
 
 button.addEventListener("click", function () {
-  // Select the previous quote if it exists
+  // Remove the previous quote (if any), without clearing the entire container
   let existingQuote = document.querySelector("#quote-container .quote");
-
   if (existingQuote) {
-    // Fade out the existing quote and author
-    existingQuote.classList.add("fade-out");
-
-    // Ensure the existing quote is only removed after the fade-out transition is complete
-    setTimeout(() => {
-      existingQuote.remove(); // Remove the quote after fade-out
-    }, 600); // Match this to the CSS transition duration (0.6s)
+    existingQuote.remove();
   }
 
-  // Generate new quote and color
+  // Getting a random index of imported quotes array and colors array and loop until a different random index is found
   let randomIndex;
   let randomColor;
   do {
@@ -33,45 +26,75 @@ button.addEventListener("click", function () {
 
   prevIndex = randomIndex;
 
-  // Get the selected quote and author
-  let [quoteText, author] = quotes[randomIndex];
+  // Create a div for the quote
+  let randomQuote = document.createElement("div");
+  randomQuote.className = "quote";
 
-  // Format the quote: split into words and create rows of 4 words
-  let words = quoteText.split(" ");
-  let formattedQuote = "";
-  for (let i = 0; i < words.length; i += 4) {
-    formattedQuote += words.slice(i, i + 4).join(" ") + "<br>"; // Add a line break every 4 words
+  // Check if `quotes[randomIndex]` is an array
+  let quoteData = quotes[randomIndex];
+  let quoteText, author;
+
+  if (Array.isArray(quoteData)) {
+    // Extract the quote text (first element) and the author (second element)
+    quoteText = quoteData[0];
+    author = quoteData[1];
+  } else {
+    console.error("Invalid quote data: ", quotes[randomIndex]);
+    randomQuote.textContent = "Error: Invalid quote format.";
+    return; // Exit early if the format is incorrect
   }
 
-  // Create a new div for the quote
-  let randomQuote = document.createElement("div");
-  randomQuote.className = "quote fade-in"; // Apply the fade-in class
+  // Ensure quoteText is a valid string before proceeding
+  if (typeof quoteText === "string") {
+    // Declare formattedQuote variable outside the loop
+    let formattedQuote = "";
 
-  // Set the content for the quote and author
-  randomQuote.innerHTML = `
-    <div>${formattedQuote}</div>
-    <div class="author fade-in">- ${author}</div>
-  `;
+    // Split the quote into words and chunk it into rows of 4 words
+    let words = quoteText.split(" ");
+    for (let i = 0; i < words.length; i += 4) {
+      formattedQuote += words.slice(i, i + 4).join(" ");
+    }
 
-  // Update background colors
-  document.documentElement.style.backgroundColor = colors[randomColor];
-  document.documentElement.style.color = colors[randomColor];
-  document.body.style.backgroundColor = colors[randomColor];
+    // Set the formatted quote as the innerHTML of the div
+    randomQuote.innerHTML = formattedQuote;
+
+    // Optionally, you can also append the author's name below the quote
+    if (author) {
+      let authorDiv = document.createElement("div");
+      authorDiv.className = "author";
+      authorDiv.textContent = `- ${author}`;
+      randomQuote.appendChild(authorDiv);
+    }
+  } else {
+    console.error("Invalid quote format.");
+    randomQuote.textContent = "Error: Invalid quote format.";
+  }
+
+  // Select the <html> and <body> elements
+  const htmlElement = document.documentElement;
+  const bodyElement = document.body;
+
+  // Set the styles directly (no jQuery)
+  htmlElement.style.backgroundColor = colors[randomColor];
+  htmlElement.style.color = colors[randomColor];
+  bodyElement.style.backgroundColor = colors[randomColor];
   button.style.backgroundColor = colors[randomColor];
   iconButton.style.backgroundColor = colors[randomColor];
 
-  // Update the vertical and horizontal lines
+  // Controlling vertical and horizontal lines
   lineVertical.style.backgroundColor = colors[randomColor];
   lineHorizontal.style.backgroundColor = colors[randomColor];
   lineVertical.style.width = "10px";
   lineHorizontal.style.height = "10px";
 
-  // Insert the new quote
+  // Insert the new quote at the beginning of the container (before the hr and buttons)
   container.insertBefore(randomQuote, container.firstChild);
 
-  // Add a delay for the fade-in to make sure it starts smoothly
+  // Delay the transition so the quote starts from the top
   setTimeout(() => {
-    randomQuote.classList.remove("fade-in"); // Ensure the quote keeps its final position
+    randomQuote.style.top = "0"; // Move the quote to its final position
+    randomQuote.style.right = "0"; // Move the quote to its final horizontal position (right-to-left)
+    randomQuote.style.opacity = "1"; // Fade in the quote
   }, 50); // Small delay to trigger the CSS transition
 });
 
@@ -79,12 +102,12 @@ iconButton.addEventListener("click", function () {
   let quotes = document.querySelector(".quote");
   let utterance = new SpeechSynthesisUtterance();
 
-  // Retrieve the text from quotes
+  //retrieve text from quotes
   let quoteText = quotes.textContent;
 
-  // Set the text for utterance
+  //set the text for utterance
   utterance.text = quoteText;
 
-  // Speak the quote
+  //speak the quote
   window.speechSynthesis.speak(utterance);
 });
