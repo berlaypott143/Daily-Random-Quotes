@@ -75,18 +75,31 @@ button.addEventListener("click", function () {
   }, 50); // Small delay to trigger the CSS transition
 });
 
+// Add event listener to the iconButton for speech synthesis
 iconButton.addEventListener("click", function () {
-  let quotes = document.querySelector(".quote");
-  let utterance = new SpeechSynthesisUtterance();
+  let quotesElement = document.querySelector(".quote");
+  if (quotesElement) {
+    let quoteText = quotesElement.textContent;
 
-  // Retrieve the text from quotes
-  let quoteText = quotes.textContent;
+    // Create a new utterance for the quote
+    let utterance = new SpeechSynthesisUtterance(quoteText);
 
-  // Set the text for utterance
-  utterance.text = quoteText;
+    // Select the best voice (change the name according to your preference)
+    let voices = window.speechSynthesis.getVoices();
+    let selectedVoice = voices.find(
+      (voice) => voice.name === "Google UK English Female"
+    ); // Example voice
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
 
-  // Speak the quote
-  window.speechSynthesis.speak(utterance);
+    // Adjust pitch and rate
+    utterance.pitch = 1.2;
+    utterance.rate = 0.9;
+
+    // Speak the quote
+    window.speechSynthesis.speak(utterance);
+  } else {
+    console.error("Quote element not found for speech synthesis!");
+  }
 });
-
-// trying to revert back to 7th commit from 8th commit
